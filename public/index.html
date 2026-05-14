@@ -343,19 +343,23 @@
     });
   });
 
-  async function callClaude(prompt) {
+ async function callClaude(prompt) {
     const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 1000,
-        messages: [{ role: "user", content: prompt }]
-      })
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            prompt: prompt
+        })
     });
+
     const data = await response.json();
-    if (data.error) throw new Error(data.error.message);
-    return data.content.map(i => i.text || '').join('');
+
+    if (data.error) {
+        throw new Error(data.error.message || data.error);
+    }
+
+    return data.result || data.text || "No response";
+
   }
 
   function setLoading(tool, on) {
