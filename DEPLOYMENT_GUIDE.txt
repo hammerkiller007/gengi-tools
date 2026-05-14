@@ -1,0 +1,99 @@
+# 🚀 GenGi AI Creator Tools — Deployment Guide
+# Follow these steps ONE BY ONE. Takes about 10-15 minutes total.
+
+=======================================================
+STEP 1 — GET YOUR ANTHROPIC API KEY (2 min)
+=======================================================
+
+1. Go to: https://console.anthropic.com
+2. Sign up or log in
+3. Click "API Keys" in the left menu
+4. Click "Create Key"
+5. Copy the key — it looks like: sk-ant-api03-xxxxxxxx
+6. ⚠️ SAVE THIS KEY SOMEWHERE SAFE — you won't see it again
+
+=======================================================
+STEP 2 — CREATE A GITHUB ACCOUNT (2 min)
+=======================================================
+
+1. Go to: https://github.com
+2. Click "Sign Up"
+3. Choose a username (e.g. gengi-ai)
+4. Verify your email
+
+=======================================================
+STEP 3 — UPLOAD YOUR PROJECT TO GITHUB (3 min)
+=======================================================
+
+1. Log into GitHub
+2. Click the "+" button (top right) → "New repository"
+3. Name it: gengi-tools
+4. Make sure it's set to PUBLIC
+5. Click "Create repository"
+6. On the next page, click "uploading an existing file"
+7. Drag and drop these files/folders:
+   - api/claude.js
+   - public/index.html
+   - vercel.json
+8. Click "Commit changes"
+
+=======================================================
+STEP 4 — DEPLOY ON VERCEL (3 min)
+=======================================================
+
+1. Go to: https://vercel.com
+2. Click "Sign Up" → choose "Continue with GitHub"
+3. Allow Vercel to access your GitHub
+4. Click "Add New Project"
+5. Find "gengi-tools" and click "Import"
+6. Leave all settings as default
+7. Click "Deploy"
+8. Wait 1-2 minutes → Your site is now LIVE! 🎉
+9. Copy your URL — looks like: https://gengi-tools.vercel.app
+
+=======================================================
+STEP 5 — ADD YOUR API KEY TO VERCEL (2 min)
+=======================================================
+
+This is the most important step — without this, tools won't work!
+
+1. In Vercel, go to your project → "Settings" tab
+2. Click "Environment Variables" in the left menu
+3. Click "Add New"
+4. Name:  ANTHROPIC_API_KEY
+5. Value: paste your sk-ant-api03-xxxxxxxx key here
+6. Click "Save"
+7. Go to "Deployments" tab → click the 3 dots on your deployment → "Redeploy"
+8. Wait 1 minute for it to redeploy
+
+=======================================================
+STEP 6 — TEST YOUR TOOLS (1 min)
+=======================================================
+
+1. Open your Vercel URL: https://gengi-tools.vercel.app
+2. Try the Music Vibe Generator — type any topic and click Generate
+3. If it works → 🎉 YOU'RE DONE!
+4. If you see an error → check Step 5 again
+
+=======================================================
+STEP 7 — ADD TO YOUR MAIN SITE (optional)
+=======================================================
+
+To link from gengiai.com to your tools page, add this to your main site navigation:
+
+<a href="https://gengi-tools.vercel.app">Creator Tools</a>
+
+OR if you want it on your own domain (e.g. tools.gengiai.com):
+1. In Vercel → Settings → Domains
+2. Add: tools.gengiai.com
+3. Follow Vercel's instructions to update your DNS
+
+=======================================================
+NEED HELP?
+=======================================================
+
+If anything goes wrong, screenshot the error and ask Claude!
+Most common issues:
+- "Invalid API key" → Re-check Step 5, make sure no spaces
+- "Function timeout" → Normal, just try again
+- Page not loading → Check vercel.json is uploaded correctly
