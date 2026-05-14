@@ -8,13 +8,15 @@ export default async function handler(req, res) {
   }
 
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(405).json({
+      error: 'Method not allowed'
+    });
   }
 
   try {
-   const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+    const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-    const prompt = req.body.prompt || 'Hello';
+    const prompt = req.body.prompt;
 
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
@@ -41,18 +43,15 @@ export default async function handler(req, res) {
 
     const text =
       data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-      'No response generated.';
+      'No response';
 
     return res.status(200).json({
       result: text
     });
-  } catch (error) {
-    console.error(error);
 
-    return res.status(200).json({
-  content: text,
-  completion: text,
-  result: text
-});
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message
+    });
   }
 }
