@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #F3F2EF;
+  --card: #FFFFFF;
+  --ink: #1B1F23;
+  --ink-2: #5E6670;
+  --line: #E1E4E8;
+  --act: #0A66C2;
+  --act-soft: #E8F1FB;
+  --ok: #1F8A4C;
+  --ok-bg: #E7F5EC;
+  --pivot: #A16207;
+  --pivot-bg: #FFF7E0;
+  --kill: #B91C1C;
+  --kill-bg: #FDECEC;
+  --up: #FF6314;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-line: var(--line);
+  --color-act: var(--act);
+  --color-act-soft: var(--act-soft);
+  --color-ok: var(--ok);
+  --color-ok-bg: var(--ok-bg);
+  --color-pivot: var(--pivot);
+  --color-pivot-bg: var(--pivot-bg);
+  --color-kill: var(--kill);
+  --color-kill-bg: var(--kill-bg);
+  --font-sans: var(--font-inter);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
