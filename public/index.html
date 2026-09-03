@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GenGi AI</title>
+</head>
+<body style="background:black;color:white;font-family:sans-serif;padding:40px">
+  <h1>GenGi AI Working 🚀</h1>
+
+  <button onclick="testAI()">Test AI</button>
+
+  <pre id="output"></pre>
+
+  <script>
+    async function testAI() {
+      const res = await fetch('/api/claude', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          prompt: 'hello'
+        })
+      });
+
+      const data = await res.json();
+
+      document.getElementById('output').innerText =
+        JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
