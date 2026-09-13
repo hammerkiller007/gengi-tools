@@ -1,14 +1,6 @@
 import Link from "next/link";
 import { signOut } from "@/app/auth/actions";
 
-const GROUPS = [
-  { initial: "C", name: "Consumer & D2C" },
-  { initial: "B", name: "B2B & SaaS" },
-  { initial: "H", name: "Hiring & Talent" },
-  { initial: "L", name: "Local & Services" },
-  { initial: "F", name: "Fundraising" },
-];
-
 const VERDICTS = [
   { dot: "bg-ok", text: "text-ok", name: "Invest", meaning: "You'd put your own time or money behind it." },
   { dot: "bg-pivot", text: "text-pivot", name: "Pivot", meaning: "Right problem, wrong shape. Say what you'd change." },
@@ -21,10 +13,16 @@ export function LeftRail({
   name,
   handle,
   signedIn,
+  stats,
+  groups,
+  activeGroup,
 }: {
   name: string;
   handle: string | null;
   signedIn: boolean;
+  stats?: { pitches: number; verdictsGiven: number; backedEarly: number };
+  groups: { slug: string; name: string }[];
+  activeGroup?: string;
 }) {
   return (
     <aside className="hidden flex-col gap-4 lg:flex">
@@ -40,11 +38,17 @@ export function LeftRail({
         {signedIn ? (
           <>
             <div className="mt-4 flex flex-col gap-2.5 border-t border-line pt-3.5">
-              <Stat label="Pitches" value="0" />
-              <Stat label="Verdicts given" value="0" />
-              <Stat label="Backed early" value="0" />
+              <Stat label="Pitches" value={stats?.pitches ?? 0} />
+              <Stat label="Verdicts given" value={stats?.verdictsGiven ?? 0} />
+              <Stat label="Backed early" value={stats?.backedEarly ?? 0} />
             </div>
-            <form action={signOut} className="mt-3.5 border-t border-line pt-3">
+            <Link
+              href="/portfolio"
+              className="mt-3.5 block border-t border-line pt-3 text-center text-[13px] font-semibold text-act"
+            >
+              View portfolio
+            </Link>
+            <form action={signOut} className="mt-2 border-t border-line pt-3">
               <button className="text-[13px] font-semibold text-ink-2 hover:text-ink">Sign out</button>
             </form>
           </>
@@ -59,15 +63,26 @@ export function LeftRail({
       </div>
 
       <div className={card}>
-        <span className="text-xs font-bold uppercase tracking-wider text-ink-2">Groups</span>
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-bold uppercase tracking-wider text-ink-2">Groups</span>
+          <Link href="/groups" className="text-xs font-semibold text-act">
+            See all
+          </Link>
+        </div>
         <div className="mt-3 flex flex-col gap-2.5">
-          {GROUPS.map((g) => (
-            <div key={g.name} className="flex items-center gap-2.5">
+          {groups.map((g) => (
+            <Link
+              key={g.slug}
+              href={`/?group=${g.slug}`}
+              className={`flex items-center gap-2.5 rounded-lg -mx-1.5 px-1.5 py-0.5 ${
+                activeGroup === g.slug ? "bg-act-soft" : "hover:bg-bg"
+              }`}
+            >
               <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-bg text-xs font-bold text-ink-2">
-                {g.initial}
+                {g.name.charAt(0)}
               </span>
               <span className="text-sm font-medium">{g.name}</span>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
@@ -75,7 +90,7 @@ export function LeftRail({
   );
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function Stat({ label, value }: { label: string; value: string | number }) {
   return (
     <span className="flex items-baseline justify-between">
       <span className="text-[13px] text-ink-2">{label}</span>
@@ -117,6 +132,9 @@ export function RightRail() {
             no verdicts. Promote it to a pitch later if it goes somewhere.
           </p>
         </div>
+        <Link href="/pitch/new" className="mt-3.5 block border-t border-line pt-3 text-[13px] font-semibold text-act">
+          Start a post →
+        </Link>
       </div>
     </aside>
   );

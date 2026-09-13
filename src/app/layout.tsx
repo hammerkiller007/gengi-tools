@@ -7,6 +7,17 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 export const metadata: Metadata = {
   title: "Gengiai — the startup sandbox",
   description: "Where startup people think out loud. Post ideas, tear them down, build the good ones together.",
+  openGraph: {
+    title: "Gengiai — the startup sandbox",
+    description: "Where startup people think out loud. Post ideas, tear them down, build the good ones together.",
+    images: [{ url: "/brand/gengiai-lockup.png", width: 1536, height: 1024 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Gengiai — the startup sandbox",
+    description: "Where startup people think out loud. Post ideas, tear them down, build the good ones together.",
+    images: ["/brand/gengiai-lockup.png"],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
