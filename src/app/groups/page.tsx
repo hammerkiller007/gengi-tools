@@ -20,7 +20,7 @@ export default async function GroupsPage() {
       <TopBar initial={initial} active="groups" />
 
       <main className="mx-auto w-full max-w-[720px] grow px-4 py-6 lg:py-10">
-        <h1 className="text-2xl font-bold tracking-tight">Groups</h1>
+        <h1 className="pitch-title text-[30px] font-medium">Groups</h1>
         <p className="mt-1 text-[14px] text-ink-2">Topical communities. Post into one, or just browse.</p>
 
         <div className="mt-6 flex flex-col gap-2.5">

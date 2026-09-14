@@ -20,7 +20,7 @@ export default async function BoardroomPage() {
       <TopBar initial={initial} active="boardroom" />
 
       <main className="mx-auto w-full max-w-[720px] grow px-4 py-6 lg:py-10">
-        <h1 className="text-2xl font-bold tracking-tight">Boardroom</h1>
+        <h1 className="pitch-title text-[30px] font-medium">Boardroom</h1>
         <p className="mt-1 text-[14px] text-ink-2">Structured spaces, not just a feed. Pick a room.</p>
 
         <div className="mt-6 flex flex-col gap-2.5">

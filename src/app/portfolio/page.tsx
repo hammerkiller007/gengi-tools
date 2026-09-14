@@ -37,7 +37,7 @@ export default async function PortfolioPage() {
       <TopBar initial={initial} active="portfolio" />
 
       <main className="mx-auto w-full max-w-[720px] grow px-4 py-6 lg:py-10">
-        <h1 className="text-2xl font-bold tracking-tight">Portfolio</h1>
+        <h1 className="pitch-title text-[30px] font-medium">Portfolio</h1>
         <p className="mt-1 text-[14px] text-ink-2">{profile?.display_name ?? user.email}</p>
 
         <div className="mt-5 grid grid-cols-3 gap-2.5">

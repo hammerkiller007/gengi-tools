@@ -29,7 +29,7 @@ export function TopBar({ initial, active = "home" }: { initial: string; active?:
       <div className="mx-auto flex h-14 max-w-[1128px] items-center gap-3 px-4 lg:gap-4 lg:px-6">
         <Link href="/" className="flex items-center gap-1.5">
           <Image src="/brand/mark.png" alt="" width={28} height={28} className="h-7 w-7" priority />
-          <span className="text-[21px] font-extrabold tracking-tight text-act lg:text-[22px]">gengiai</span>
+          <span className="pitch-title text-[23px] font-semibold tracking-tight text-act lg:text-[24px]">gengiai</span>
         </Link>
 
         <div className="hidden h-[34px] max-w-[280px] grow items-center gap-2 rounded-full border border-line bg-bg px-3.5 text-ink-2 lg:flex">

@@ -1,20 +1,27 @@
 @import "tailwindcss";
 
+/* Gengiai — quiet editorial.
+   The interface is near-monochrome on paper. The ONLY saturated colour in the
+   product is the verdict system (Invest / Pivot / Kill), so the thing that makes
+   this site different is also the only thing that carries colour. */
+
 :root {
-  --bg: #F3F2EF;
+  --bg: #F4F5F2;          /* paper — cool off-white, faint green bias */
   --card: #FFFFFF;
-  --ink: #1B1F23;
-  --ink-2: #5E6670;
-  --line: #E1E4E8;
-  --act: #0A66C2;
-  --act-soft: #E8F1FB;
-  --ok: #1F8A4C;
-  --ok-bg: #E7F5EC;
-  --pivot: #A16207;
-  --pivot-bg: #FFF7E0;
-  --kill: #B91C1C;
-  --kill-bg: #FDECEC;
-  --up: #FF6314;
+  --ink: #141A19;         /* near-black with a teal cast, never pure #000 */
+  --ink-2: #5C6664;
+  --line: #E3E6E1;
+  --act: #103B38;         /* deep teal-black — buttons, links, active state */
+  --act-soft: #E6EEEC;
+
+  --ok: #1E7B4F;
+  --ok-bg: #E6F2EB;
+  --pivot: #9C6510;
+  --pivot-bg: #F8EFDD;
+  --kill: #A3352A;
+  --kill-bg: #F8E9E6;
+
+  --up: #C2612A;          /* traction flame — sunrise tone from the logo */
 }
 
 @theme inline {
@@ -31,11 +38,29 @@
   --color-pivot-bg: var(--pivot-bg);
   --color-kill: var(--kill);
   --color-kill-bg: var(--kill-bg);
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-ui);
+  --font-serif: var(--font-editorial);
 }
 
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
 }
+
+/* Pitch titles carry the editorial voice. */
+.pitch-title {
+  font-family: var(--font-editorial), Georgia, "Times New Roman", serif;
+  font-optical-sizing: auto;
+  letter-spacing: -0.006em;
+  text-wrap: balance;
+}
+
+.label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.tnum { font-variant-numeric: tabular-nums; }

@@ -17,10 +17,42 @@ function timeAgo(iso: string) {
   return new Date(iso).toLocaleDateString();
 }
 
-const VERDICTS: { kind: VoteKind; label: string; icon: typeof Icon.Invest; text: string; bg: string; border: string }[] = [
-  { kind: "invest", label: "Invest", icon: Icon.Invest, text: "text-ok", bg: "bg-ok-bg", border: "border-ok" },
-  { kind: "pivot", label: "Pivot", icon: Icon.Pivot, text: "text-pivot", bg: "bg-pivot-bg", border: "border-pivot" },
-  { kind: "kill", label: "Kill", icon: Icon.Kill, text: "text-kill", bg: "bg-kill-bg", border: "border-kill" },
+const VERDICTS: {
+  kind: VoteKind;
+  label: string;
+  icon: typeof Icon.Invest;
+  text: string;
+  bg: string;
+  border: string;
+  hover: string;
+}[] = [
+  {
+    kind: "invest",
+    label: "Invest",
+    icon: Icon.Invest,
+    text: "text-ok",
+    bg: "bg-ok-bg",
+    border: "border-ok",
+    hover: "hover:border-ok hover:bg-ok-bg hover:text-ok",
+  },
+  {
+    kind: "pivot",
+    label: "Pivot",
+    icon: Icon.Pivot,
+    text: "text-pivot",
+    bg: "bg-pivot-bg",
+    border: "border-pivot",
+    hover: "hover:border-pivot hover:bg-pivot-bg hover:text-pivot",
+  },
+  {
+    kind: "kill",
+    label: "Kill",
+    icon: Icon.Kill,
+    text: "text-kill",
+    bg: "bg-kill-bg",
+    border: "border-kill",
+    hover: "hover:border-kill hover:bg-kill-bg hover:text-kill",
+  },
 ];
 
 const OUTCOME_LABEL: Record<Outcome, string> = { built: "Built", pivoted: "Pivoted", killed: "Killed" };
@@ -95,8 +127,8 @@ export function IdeaCard({
         </div>
       </div>
 
-      <h3 className="mt-3 text-[15px] font-semibold leading-snug">{idea.title}</h3>
-      <p className="mt-1.5 whitespace-pre-line text-[14px] leading-relaxed text-ink-2">{idea.problem}</p>
+      <h3 className="pitch-title mt-3.5 text-[21px] font-medium leading-[1.26] lg:text-[23px]">{idea.title}</h3>
+      <p className="mt-2 whitespace-pre-line text-[15px] leading-[1.65] text-ink-2">{idea.problem}</p>
 
       {!isHalfBaked && idea.biggest_doubt && (
         <p className="mt-2 text-[13px] leading-normal text-ink-2">
@@ -139,11 +171,11 @@ export function IdeaCard({
                     setPicked(v.kind);
                     setJustVoted(false);
                   }}
-                  className={`flex h-8 items-center gap-1.5 rounded-full border px-3 text-[13px] font-semibold transition ${
-                    active ? `${v.border} ${v.bg} ${v.text}` : "border-line text-ink-2 hover:bg-bg"
+                  className={`flex h-9 items-center gap-2 rounded-full border px-4 text-[13.5px] font-semibold transition ${
+                    active ? `${v.border} ${v.bg} ${v.text}` : `border-line text-ink-2 ${v.hover}`
                   }`}
                 >
-                  <IconC /> {v.label} {count > 0 && <span className="opacity-70">{count}</span>}
+                  <IconC /> {v.label} {count > 0 && <span className="tnum opacity-60">{count}</span>}
                 </button>
               );
             })}

@@ -1,8 +1,19 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Instrument_Sans, Newsreader } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const ui = Instrument_Sans({
+  subsets: ["latin"],
+  variable: "--font-ui",
+  display: "swap",
+});
+
+const editorial = Newsreader({
+  subsets: ["latin"],
+  variable: "--font-editorial",
+  display: "swap",
+  style: ["normal", "italic"],
+});
 
 export const metadata: Metadata = {
   title: "Gengiai — the startup sandbox",
@@ -22,7 +33,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={`${ui.variable} ${editorial.variable}`}>
       <body className="min-h-screen antialiased">{children}</body>
     </html>
   );

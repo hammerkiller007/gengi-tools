@@ -93,7 +93,7 @@ export default async function Home({
 function EmptyFeed({ signedIn }: { signedIn: boolean }) {
   return (
     <section className="rounded-xl border border-line bg-card p-6 lg:p-8">
-      <h1 className="text-xl font-semibold tracking-tight lg:text-2xl">No pitches yet.</h1>
+      <h1 className="pitch-title text-[26px] font-medium lg:text-[30px]">No pitches yet.</h1>
       <p className="mt-2 max-w-prose text-[15px] leading-relaxed text-ink-2">
         Gengiai is where startup and business ideas get an honest read — you post what you&apos;re working on,
         and people tell you whether they&apos;d back it, reshape it, or spare you the year. Yours would be the
