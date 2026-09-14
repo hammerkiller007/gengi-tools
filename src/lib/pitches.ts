@@ -106,6 +106,56 @@ export async function getMyVoteMap(userId: string | null) {
   return map;
 }
 
+export type Comment = {
+  id: string;
+  idea_id: string;
+  body: string;
+  created_at: string;
+  author_name: string;
+};
+
+export async function getCommentsFor(ideaIds: string[]) {
+  const map = new Map<string, Comment[]>();
+  if (ideaIds.length === 0) return map;
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("comments")
+    .select("id, idea_id, body, created_at, profiles(display_name)")
+    .in("idea_id", ideaIds)
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    console.error("getCommentsFor error", error);
+    return map;
+  }
+
+  for (const row of data ?? []) {
+    const p = Array.isArray(row.profiles) ? row.profiles[0] : row.profiles;
+    const c: Comment = {
+      id: row.id,
+      idea_id: row.idea_id,
+      body: row.body,
+      created_at: row.created_at,
+      author_name: (p as { display_name?: string } | null)?.display_name ?? "Member",
+    };
+    const list = map.get(row.idea_id) ?? [];
+    list.push(c);
+    map.set(row.idea_id, list);
+  }
+  return map;
+}
+
+export async function getMyProfile(userId: string) {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("profiles")
+    .select("display_name, handle, bio")
+    .eq("id", userId)
+    .single();
+  return data;
+}
+
 export async function getMyPortfolio(userId: string) {
   const supabase = await createClient();
   const [{ data: myPitches }, { data: myVerdicts }] = await Promise.all([

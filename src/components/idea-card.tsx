@@ -2,8 +2,8 @@
 
 import { useState, useTransition } from "react";
 import * as Icon from "@/components/icons";
-import { castVote, promoteToPitch, setOutcome } from "@/lib/actions";
-import type { FeedIdea, Outcome, VoteKind } from "@/lib/pitches";
+import { addComment, castVote, promoteToPitch, setOutcome } from "@/lib/actions";
+import type { Comment, FeedIdea, Outcome, VoteKind } from "@/lib/pitches";
 
 function timeAgo(iso: string) {
   const diff = Date.now() - new Date(iso).getTime();
@@ -62,11 +62,15 @@ export function IdeaCard({
   isMine,
   myVote,
   groupName,
+  comments = [],
+  canComment = false,
 }: {
   idea: FeedIdea;
   isMine: boolean;
   myVote?: { kind: VoteKind; note: string };
   groupName?: string;
+  comments?: Comment[];
+  canComment?: boolean;
 }) {
   const [voting, setVoting] = useState(false);
   const [pending, startTransition] = useTransition();
@@ -247,7 +251,95 @@ export function IdeaCard({
           )}
         </div>
       )}
+
+      <CommentThread ideaId={idea.id} comments={comments} canComment={canComment} />
     </article>
+  );
+}
+
+function CommentThread({
+  ideaId,
+  comments,
+  canComment,
+}: {
+  ideaId: string;
+  comments: Comment[];
+  canComment: boolean;
+}) {
+  const [open, setOpen] = useState(comments.length > 0 && comments.length <= 3);
+  const [body, setBody] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [pending, startTransition] = useTransition();
+
+  function submit() {
+    if (!body.trim()) return;
+    setError(null);
+    startTransition(async () => {
+      const res = await addComment(ideaId, body);
+      if (res?.error) setError(res.error);
+      else setBody("");
+    });
+  }
+
+  const count = comments.length;
+
+  return (
+    <div className="mt-3.5 border-t border-line pt-3">
+      {!open ? (
+        <button
+          onClick={() => setOpen(true)}
+          className="text-[13px] font-semibold text-ink-2 hover:text-ink"
+        >
+          {count === 0 ? "Reply" : `${count} ${count === 1 ? "reply" : "replies"}`}
+        </button>
+      ) : (
+        <div className="flex flex-col gap-3">
+          {comments.map((c) => (
+            <div key={c.id} className="flex gap-2.5">
+              <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-act-soft text-[11px] font-bold text-act">
+                {c.author_name.charAt(0).toUpperCase()}
+              </span>
+              <div className="min-w-0">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-[13px] font-semibold">{c.author_name}</span>
+                  <span className="text-[11px] text-ink-2">{timeAgo(c.created_at)}</span>
+                </div>
+                <p className="whitespace-pre-line text-[14px] leading-normal text-ink-2">{c.body}</p>
+              </div>
+            </div>
+          ))}
+
+          {canComment ? (
+            <div className="flex flex-col gap-2">
+              <textarea
+                value={body}
+                onChange={(e) => setBody(e.target.value)}
+                rows={2}
+                placeholder="Add something useful — a question, an angle they missed."
+                className="w-full resize-none rounded-lg border border-line bg-bg px-3 py-2 text-[13.5px] outline-none focus:border-act"
+              />
+              {error && <p className="text-xs text-kill">{error}</p>}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={submit}
+                  disabled={!body.trim() || pending}
+                  className="flex h-8 items-center rounded-full bg-act px-3.5 text-[13px] font-semibold text-white disabled:opacity-50"
+                >
+                  {pending ? "Posting…" : "Reply"}
+                </button>
+                {count > 0 && (
+                  <button onClick={() => setOpen(false)} className="text-[13px] font-semibold text-ink-2">
+                    Hide
+                  </button>
+                )}
+              </div>
+            </div>
+          ) : (
+            <p className="text-[13px] text-ink-2">Sign in to reply.</p>
+          )}
+        </div>
+      )}
+    </div>
   );
 }
 

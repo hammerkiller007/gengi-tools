@@ -42,12 +42,15 @@ export function LeftRail({
               <Stat label="Verdicts given" value={stats?.verdictsGiven ?? 0} />
               <Stat label="Backed early" value={stats?.backedEarly ?? 0} />
             </div>
-            <Link
-              href="/portfolio"
-              className="mt-3.5 block border-t border-line pt-3 text-center text-[13px] font-semibold text-act"
-            >
-              View portfolio
-            </Link>
+            <div className="mt-3.5 flex items-center justify-center gap-3 border-t border-line pt-3 text-[13px] font-semibold">
+              <Link href="/portfolio" className="text-act">
+                View portfolio
+              </Link>
+              <span className="text-line">·</span>
+              <Link href="/settings" className="text-ink-2 hover:text-ink">
+                Edit profile
+              </Link>
+            </div>
             <form action={signOut} className="mt-2 border-t border-line pt-3">
               <button className="text-[13px] font-semibold text-ink-2 hover:text-ink">Sign out</button>
             </form>

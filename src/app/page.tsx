@@ -4,7 +4,14 @@ import { TopBar, SortTabs, ComposerPrompt, MobileNav } from "@/components/chrome
 import { LeftRail, RightRail } from "@/components/rails";
 import { IdeaCard } from "@/components/idea-card";
 import * as Icon from "@/components/icons";
-import { getFeed, getGroups, getMyStats, getMyVoteMap, type SortMode } from "@/lib/pitches";
+import {
+  getCommentsFor,
+  getFeed,
+  getGroups,
+  getMyStats,
+  getMyVoteMap,
+  type SortMode,
+} from "@/lib/pitches";
 
 export default async function Home({
   searchParams,
@@ -35,6 +42,7 @@ export default async function Home({
   ]);
 
   const groupName = group ? groups.find((g) => g.slug === group)?.name : undefined;
+  const commentMap = await getCommentsFor(feed.map((i) => i.id));
 
   return (
     <div className="flex min-h-screen flex-col bg-bg">
@@ -76,6 +84,8 @@ export default async function Home({
                   isMine={!!user && idea.author_id === user.id}
                   myVote={myVotes.get(idea.id)}
                   groupName={idea.group_slug ? groups.find((g) => g.slug === idea.group_slug)?.name : undefined}
+                  comments={commentMap.get(idea.id) ?? []}
+                  canComment={!!user}
                 />
               ))}
             </div>

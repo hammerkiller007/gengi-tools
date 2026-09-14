@@ -121,6 +121,70 @@ export async function castVote(ideaId: string, kind: VoteKind, note: string) {
   return { error: null };
 }
 
+export async function updateProfile(formData: FormData) {
+  const display_name = String(formData.get("display_name") ?? "").trim();
+  const handle = String(formData.get("handle") ?? "").trim().toLowerCase();
+  const bio = String(formData.get("bio") ?? "").trim();
+
+  if (display_name.length < 2) {
+    redirect(`/settings?error=${encodeURIComponent("Your name needs at least 2 characters.")}`);
+  }
+  if (!/^[a-z0-9_]{3,24}$/.test(handle)) {
+    redirect(
+      `/settings?error=${encodeURIComponent(
+        "Handle must be 3–24 characters, lowercase letters, numbers or underscores."
+      )}`
+    );
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ display_name, handle, bio: bio || null })
+    .eq("id", user.id);
+
+  if (error) {
+    const taken = error.code === "23505";
+    redirect(
+      `/settings?error=${encodeURIComponent(
+        taken ? "That handle is already taken." : "Could not save your profile. Try again."
+      )}`
+    );
+  }
+
+  revalidatePath("/");
+  revalidatePath("/settings");
+  redirect("/settings?saved=1");
+}
+
+export async function addComment(ideaId: string, body: string) {
+  const trimmed = body.trim();
+  if (!trimmed) return { error: "Write something first." };
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Sign in to reply." };
+
+  const { error } = await supabase
+    .from("comments")
+    .insert({ idea_id: ideaId, author_id: user.id, body: trimmed });
+
+  if (error) {
+    console.error("addComment error", error);
+    return { error: "Could not post that reply." };
+  }
+
+  revalidatePath("/");
+  return { error: null };
+}
+
 export async function setOutcome(ideaId: string, outcome: Outcome) {
   const supabase = await createClient();
   const {
